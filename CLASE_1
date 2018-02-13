@@ -1,0 +1,63 @@
+# SERIES-DE-TIEMPO|
+# FUNCIONES BÁSICAS
+# R-INTRO
+
+# DIRECTORIO DE TRABAJO
+
+# PARA INDICAR DONDE VA A ALMACENAR LA INFORMACION
+setwd ("C:/Users/Sala-D15/Documents/NetBeansProjects/Diagnostico")
+# PARA VERIFICAR
+getwd()
+
+# CALCULADORA
+
+3+4
+3^4
+3*4-1+2
+
+# RAIZ CUADRADA   
+sqrt(10)
+#  EXPONENTE e^x
+exp(10)
+# LOG BASE e
+log(10)
+# LOG 10 BASE 10
+log(10,10)
+log(10, base = 10)
+# VALORES
+pi
+
+# ASIGNACION 
+
+x = 1000
+x+3
+y <- 2
+
+# VECTOR 
+# operador c es para concatenar 
+
+salarios <- c(4000,54000,65220)
+# [filas,columnas]
+Salarios3 <- c(40000, 50000, 55000)
+Salarios4 <- c(10000, 15000,20000)
+Salarios5 <-c(Salarios3, Salarios4)
+
+#vestores con distinto tipo de dats
+alumnos <- c("Elisa","Bonifacio", "Edgar")
+alumnos.salarios <- c("Elisa","Bonifacio", "Edgar",40000, 50000, 55000)
+alumnos.salarios<-c(alumnos,salarios)
+sum(Salarios3)
+length(Salarios3)
+mean(Salarios3)
+#varianza
+x=c(20,22,24,26,28)
+mediax=mean(x)
+(x-mediax)^2
+sum((x-mediax)^2)
+n=length(x)
+sum((x-mediax)^2)/(n-1)
+var(x)
+
+# INSTALACION DE PAQUETES
+install.packages("Giza")
+library(Giza)
