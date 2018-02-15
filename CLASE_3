@@ -1,0 +1,46 @@
+library(readxl)
+datos_excel <- read_excel("C:/Users/Sala-D11/Documents/
+                          SERIES DE TIEMPO/petroleo.xlsx")
+
+# GRÁFICOS
+plot()   # grafico
+hist()  # histograma
+boxplot()
+barplot()
+
+# FUNCION PARA NUMERO ALEATORIO
+set.seed(12345)
+variable_y <- rnorm(30) # simulacion de una normal a partir de 
+x11()     # ventana anexa
+windows()   # ventana anexa
+plot(variable_y)
+variable_y
+
+xv<- seq(-3,3,0.01)  # desde hasta cada
+yv <- dnorm(xv)   # simulacion de una normal a partir de xv
+plot(xv,yv,type = "l") # linea
+plot(xv,yv,type = "S") # linea mas suave
+plot(xv,yv,type = "l",col="blue",main = "TITULO",
+      xlab = "EJE X",ylab = "EJE Y ")
+# tipos p,l,b,c,o,h,s,n
+
+attach(mtcars)
+x11()
+par(mfrow=c(3,1)) # en un solo grafico apila graficos 3 filas 1 columa
+hist(wt)
+plot(mpg)
+hist(disp)
+
+attach(mtcars)
+x11()
+layout(matrix(c(1,1,2,3),2,2,byrow = TRUE))# en un solo grafico apila graficos 
+hist(wt)
+plot(mpg)
+hist(disp)
+
+datos_excel.ts <- ts(datos_excel)   #para transformar en serie de tiempo
+x11()
+plot(datos_excel.ts,xlab="TIEMPO",ylab="PRECIO DEL BARRIL",
+     main="PRECIO DEL BARRIL DEL PETROLEO")
+
+# TAREA GRAFICAR CON COLOR TITULO EJES de datos que mando
