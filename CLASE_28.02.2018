@@ -1,0 +1,7 @@
+boletos.ts <- ts(boletos) # para serie de tiempo
+plot(boletos.ts)
+par(mfrow=c(3,1)) # grafica 3 graficas en 1 columna
+plot(boletos.ts[,"primera"],col="red") # solo cambia color de esa seccion 
+plot(boletos.ts[,"turismo"],col="navy")
+plot(boletos.ts[,"primera"],col="green")
+summary(estimado <- lm(muertes.ts~time))
