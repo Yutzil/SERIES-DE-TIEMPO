@@ -1,0 +1,39 @@
+library(readxl)
+diferences <- read_excel("C:/Users/Sala-D11/Downloads/differences.xlsx")
+diferences2 <- read_excel("C:/Users/Sala-D11/Downloads/differences2.xlsx")
+diferences.ts <- ts(diferences)
+
+plot(diferences.ts,ylab="serie",xlab="periodo",col="blue")
+
+# LAS TRANSFORMACIONES DEPENDEN DE LOS DATOS DE TUS PROCESOS
+
+# TRANSFORMACION CON LOS LOGARITMOS, PARA SUAVIZAR, EQUILIBRAR LA MEDIA
+# REDUCE LA VARIANZA Y NO AFECTA LA ESTRUCTURA DEL PROCESO
+plot(log(diferences.ts),ylab="log primeras diferencias estacionales",
+     xlab="periodo",col="black")
+
+# GRAFICADO SE PIDEN LAS DIFERENCIAS
+plot(diff(log(diferences.ts),12),ylab="log segundas diferencias 
+     estacionales",xlab="periodo",col="pink")
+
+# FUNCION DE AUTOCORRELACION
+acf(diff(log(diferences.ts),12)) # ORDEN 12, SE ASUME SON MENSUALES
+
+# PERO NI CON LAS TRANSFORMACIONES NI CON LAS DIFERENCIAS DE ORDEN 12
+# SE LOGRA EL OBJETIVO
+# TIENE ESTACIONALIDAD
+
+
+diferences2.ts <- ts(diferences2)
+
+plot(diferences2.ts,ylab="serie",xlab="periodo",col="blue")
+
+plot(log(diferences2.ts),ylab="log primeras diferencias estacionales",
+     xlab="periodo",col="black")
+
+plot(diff(log(diferences2.ts),12),ylab="log segundas diferencias 
+     estacionales",xlab="periodo",col="pink")
+
+plot(diff(diff(log(diferences2.ts),12),1))
+# FUNCION DE AUTOCORRELACION
+acf(diff(diff(log(diferences2.ts),12),1))
