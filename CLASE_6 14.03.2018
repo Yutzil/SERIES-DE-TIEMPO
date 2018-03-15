@@ -1,0 +1,68 @@
+# PROCESO AR(1)
+# VALOR DEL PARAMETRO FI(1) 0.75
+x11()
+set.seed(456) #  SEMILLA ALEATORIA DEL PROCESO A PARTIR DE AHI INICIAS
+y <- e <- rnorm(200) # Y ES E Y ES UNA DISTRIBUCION NORMAL PARA 200 MUESTRAS ( pueden ser al menos 30 )
+for(t in 2:200) y[t] <- 0.75*y[t-1] + e[t] # PARA T DE 2 A 200 ( POR QUE DEBO TENER AL MENOS 1 RETARDO)  ES FI*Y(t-1)+et
+plot(y) # SE GENERA UN DIAGRAMA DE DISPERSION RELACIONANDO yt CON yt-1
+
+# FUNCIONES DE AUTOCORRELACION
+X11()
+par(mfrow=c(2:1)) # SOLICITA QUE APILE 2 FILAS Y 1 COLUMNA
+plot(y,type="l",col="red") # PIDO QUE GRAFIQUE
+X11()
+acf(y,col="red")
+# TIENE TENDENCIA 
+# ruido blanco = ninguna linea sale, no es significativa
+# AR(1) = solo la linea 1 es significativa
+
+# EL COMANDO AR PERMITE AJUSTAR UN MODELO AUTORREGRESIVO AR(1), USANDO LA ESTIMACION DE 
+y.ar <- ar(y,method = "mle")  # es autoregresivo y con el metodo de maxima verosimilitud
+y.ar$order # PIDO QUE NOS DE DE QUE ORDEN ES EL MODELO AR
+# ENTONCES EL MODELO ES AR(1)
+# SI ES 0 NO ES AUTOREGRESIVO, Y NO LE PUEDES AJUSTAR POLINOMIO Y TENDRIA QUE CALCULAR MEDIAS MOVILES
+# SI DICE OTRO NUMERO ES AUTOREGRESIVO DE ORDEN " NUMERO" , Y ES EL NUMERO DE FIS O PESOS QUE TIENE
+y.ar$ar # LE PIDO QUE ME DE LOS VALORES DEL PARAMETRO
+
+x11()
+par(mfrow=c(2:1)) 
+plot(y.ar, type = "l")
+acf(y.ar,col="blue")
+
+y.ar$ar + c(-1.96,1.96)*sqrt(y.ar$asy.var.coef) # EL VALOR DE FI CON LAS DESV. ESTANDAR DE 1.96 POR LA RAIZ DE LA VARIANZA
+# SI FI ESTA ENTRE EL RANGO QUE ARROJA ENTONCES HAY 95% DE CRETEZA PARA DECIR QUE DESCRIBE FI AL PROCESO
+# SI EL PARAMETRO=0 NO ES SIGNIFICATIVAMENTE REPRESENTATIVO
+
+
+
+
+# PROCESO AR(2)
+set.seed(10008000)
+ar2 <- e <- rnorm(150) # ENTRE MAS OBSERVACIONES MAS HERRANMIENTAS PARA DETECTAR PROCESO
+for ( t in 3:150) ar2[t] <- 0.55*ar2[t-1]-0.44ar2[t-2]+e[t] # PARA MODELAS 2 FIS (0.55Y-0.44)
+x11()
+plot(ar2,type = "l")
+acf(ar2)
+# UTILIZANDO AR
+set.seed(150)
+yar2 <- e <- rnorm(150)
+for ( t in 3:150) yar2[t] <- 0.55*yar2[t-1]-0.44*yar2[t-2]+e[t]
+y.ar2 <- ar(ar2,method = "mle")
+y.ar2$order
+y.ar2$ar
+# COMO ES 0 NO LO PUEDE HACER AUTOREGRESIVO
+# A MAYOR ORDEN MAS DIFICIL
+
+
+
+
+# PROCESO MA(q)
+#MA(1)
+set.seed(135)
+ma1 <- e <- rnorm(300)
+for(t in 2:300) ma1[t] <- e[t] + 0.3*e[t-1]
+x11()
+par(mfrow=c(2:1)) 
+plot(ma1, type = "l")
+acf(ma1)
+# AL SER MEDIA MOVIL ES ESTACIONARIO PERO COMO LA LINEA 1 SE SALE ENTONCES ES AR(1) Y ES ARMA(1,1)
