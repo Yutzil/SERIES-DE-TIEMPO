@@ -1,0 +1,41 @@
+# EJERCICIO 
+# DANIELA SAPIEN VARGAS
+# JESSICA NAVA SANCHEZ
+
+library(readxl)
+# EJERCICIO 1
+
+# 1.1
+boletos <- read_excel("C:/Users/Sala-D11/Downloads/boletos.xlsx")
+boletos.ts <- ts(boletos$economica)
+
+# 1.2
+plot(boletos.ts,main = "BOLETOS CLASE ECONOMICA",col="orange")
+# No es estacionario por que no se nota graficamente un equilibrio 
+# constante a lo largo del grafico
+
+# 1.3
+acf(boletos.ts)
+# En este punto es notorio que tiene tendecia, por que la relacion
+# con el anterior va disminuyendo 
+# con lo cual se sustenta el hecho de que no es estacionario
+
+# EJERCICIO 2
+muertes <- read_excel("C:/Users/Sala-D11/Downloads/muertes.xlsx")
+muertes.ts <- ts(muertes)
+
+# 2.1
+plot(diff(muertes.ts,1),col="red",main="PROCESO DE DIFERENCIACION ORDEN1")
+# esta serie resulta ser ESTACIONAL, pues graficamente 
+# es notorio la repeticion del ciclo, por lo tanto no es estacionaria
+
+# 2.2
+plot(diff(log(muertes.ts),1),col="blue",main="TRANSF. LOGARITMICA CON PRIMERAS DIFERENCIAS")
+# aumentando el suavizamiento logaritmico, es aun evidente
+# que la serie resulta ser no estacionaria
+
+# 2.3
+acf(muertes.ts)
+# el grafico muestra que en la serie muertes existe una tendencia
+# de relacion de los datos, con lo cual se sustenta el hecho de que 
+# la serie no es estacionaria
