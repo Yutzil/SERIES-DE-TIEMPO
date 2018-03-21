@@ -1,0 +1,188 @@
+
+#proceso AR(1)
+#Valor del parametro = 0.75
+
+
+######################################################################################################
+# QUE SIGNIFICA FI 1
+# el fi 1 , al ser menor que 1 entonces significa que estamos haciendo 
+# que el proceso sea estacionario, pues su valor absoluto resulta ser menor 
+# que 1 
+#y ademas el valor del proceso en el resago 1 es de 0.75
+######################################################################################################
+
+
+x11()
+set.seed(456)
+y <- e <- rnorm(200)
+for (t in 2:200) y[t] <- 0.75*y[t-1] + e[t]
+plot(y)
+
+#Funciones de autocorrelacion
+par(mfrow=c(2:1))
+plot(y, type="l", col="red")
+acf(y, col="red")
+# no es estacionario
+
+#El comando ar permite ajustar un modelo autorregresivo AR (1), usando la estimaciÃ³n de mÃ¡xima verosimilitud (MLE) 
+y.ar <- ar(y, method = "mle")
+y.ar$order
+# orden 1 
+
+# CONCLUSION
+#El modelo subyacente al proceso es AR(1)
+y.ar$ar # valor de AR (fi)
+y.ar$ar + c(-1.96, 1.96)*sqrt(y.ar$asy.var) # intervalo de confianza
+                          
+#Proceso AR(1)
+x11()
+set.seed(456)
+y <- e <- rnorm(200)
+for (t in 2:200) y[t] <- -0.7*y[t-1] + e[t]
+plot(y)
+
+par(mfrow=c(2:1))
+plot(y, type="l", col="red")
+acf(y, col="green")
+
+#Utilizando funcion ar
+y.ar <- ar(y, method = "mle")
+y.ar$order
+y.ar$ar
+y.ar$ar + c(-1.96, 1.96)*sqrt(y.ar$asy.var)
+
+#############################################################
+#Proceso AR(2)
+
+
+#######################################################################################################
+# QUE SIGNIFICA FI 1 y FI 2
+# el fi 1 y el fi 2 , al ser menor que 1 entonces significa que estamos haciendo 
+# que el proceso sea estacionario, pues su valor absoluto resulta ser menor 
+# que 1 , tanto para la fi 1 como para la fi 2 , pues aunque el segundo 
+# es negativo, lo que se cuenta es el valor absoluto
+# y ademas el valor del proceso en el resago 1 es de 0.53 y el valor del
+# proceso en el resago 2 es de 0.41 
+#######################################################################################################
+
+
+x11()
+set.seed(10008000)
+ar2 <- e <- rnorm(150)
+for (t in 3:150) ar2[t] <- 0.55*ar2[t-1] - 0.44*ar2[t-2] + e[t]
+par(mfrow=c(2:1))
+plot(ar2, type="l")
+acf(ar2)
+                              
+#Utilizando ar
+set.seed(150)
+yar2 <- e <- rnorm(150)
+for (t in 3:150) ar2[t] <- 0.55*ar2[t-1] - 0.44*ar2[t-2] + e[t]
+y.ar2 <- ar(ar2, method = "mle")
+y.ar2$order # orden 2 
+y.ar2$ar # raices del polinomio 
+
+#Â¿Seguro que es AR(2)
+set.seed(10008000)
+ar2 <- e <- rnorm(100)
+for (t in 3:100) ar2[t] <- 0.55*ar2[t-1] - 0.44*ar2[t-2] + e[t]
+plot(ar2, type="l")
+acf(ar2)
+
+#Utilizando ar
+set.seed(100)
+yar2 <- e <- rnorm(100)
+for (t in 3:100) ar2[t] <- 0.55*ar2[t-1] - 0.44*ar2[t-2] + e[t]
+y.ar2 <- ar(ar2, method = "mle")
+
+y.ar2$order
+
+y.ar2$ar
+
+##############################################################
+#Proceso MA(q)
+
+#MA(1)
+set.seed(135)
+ma1 <- e <- rnorm(300)
+for (t in 2:300) ma1[t] <- e[t] + 0.3*e[t-1]
+plot(ma1, type="l")
+acf(ma1)
+# sin e,bargo no es estacionario  
+
+
+y.ma <- arima(ma1, order=c(0, 0, 1)) # funcion ARIMA de MA(1),orden (p,d,q), entonces solo es MA(1)
+y.ma
+# coeficientes de teta
+# teta1=0.06
+# intercept = delta
+# VALOR ESPERADO DE UN MA = 0 
+# para que no ocurra agregamos el delta al proceso
+# sigma cuadrada estimada es la varianza
+# maxima verocimitud = -408.36
+
+# MODELOS DE BONDAD DE AJUSTE 
+# aic = AKAIK
+# bic = SCHWARZ
+
+0.283 + c(-1.96, 1.96)*0.062
+
+#MA(1)
+set.seed(791)
+ma1 <- e <- rnorm(300)
+for (t in 2:300) ma1[t] <- e[t] -0.3*e[t-1]
+plot(ma1, type="l")
+acf(ma1)
+
+
+y.ma <- arima(ma1, order=c(0, 0, 1))
+y.ma
+
+-0.409 + c(-1.96, 1.96)*0.049
+
+
+########################
+#MA(3)
+set.seed(61413)
+ar3 <- e <- rnorm(1000)
+for (t in 4:1000) x[t] <- e[t] + 0.8*e[t-1] + 0.5*e[t-2] + 0.1*e[t-3]
+plot(ar3, type="l")
+acf(ar3)
+
+x.ma <- arima(ar3, order=c(0, 0, 3))
+x.ma
+
+-0.042 + c(-1.96, 1.96)*0.032
+
+0.025 + c(-1.96, 1.96)*0.030
+
+-0.009 + c(-1.96, 1.96)*0.031
+
+
+
+set.seed(20)
+ma1 = arima.sim(list(order = c(0,0,1), ma = 0.9), n = 100)
+plot(ma1)
+acf(ma1)
+
+
+set.seed(30)
+ar1 = arima.sim(list(order = c(1,0,0), ar = 0.2), n = 100)
+plot(ar1)
+acf(ar1)
+
+#Autorregresivo
+windows()
+par(mfrow=c(2,1))
+plot(arima.sim(list(order=c(1,0,0), ar=.7), n=100), ylab="yt",
+     main=(expression(AR(1)~~~phi==+.8)), col="red")
+plot(arima.sim(list(order=c(1,0,0), ar=-.7), n=100), ylab="yt",
+     main=(expression(AR(1)~~~phi==-.8)), col="purple")
+
+#Medias moviles
+x11()
+par(mfrow = c(2,1))
+plot(arima.sim(list(order=c(0,0,1), ma=.9), n=100), ylab="yt",
+     main=(expression(MA(1)~~~theta==+.6)), col=3)
+plot(arima.sim(list(order=c(0,0,1), ma=-.9), n=100), ylab="yt",
+     main=(expression(MA(1)~~~theta==-.6)), col=12)
