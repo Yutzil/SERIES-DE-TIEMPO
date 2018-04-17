@@ -1,0 +1,50 @@
+## CAMINATA ALEATORIA
+
+# SIMULACION
+
+y <- e <- rnorm(1000)
+for (t in 2:1000) y[t] <- y[t-1] + e[t]
+plot(y,type = "l" , col = 3)
+
+#  LA SERIE EXHIBE UNA TENDENCIA CRECIENTE 
+# SIN EMBARGO , ESTO ES PURAMENTE ESTOCASTICO Y DEBIDO A LA ALTA CORRELACION 
+
+
+## CALCULAR LAS FUNCIONES DE AUTOCORRELACION
+acf(y)
+# TENDENCIA FUERTE PUES ES CAMINATA ALEATORIA Y EL VALOR ACTUAL ESTA DETERMINADO POR EL ANTERIOR
+# UNA DISMINUCION GRADUAÑ DE UNA ALTA CORRELACION SERIAL ES ALTAMENTE CARACTERISTICA DE UNA CAMINATA
+
+# LAS DIFERENCIAS DE PRIMER ORDEN DE UNA CAMINATA ALEATORIA SON SERIES DE RUIDO BLANCO
+# EL CORRELOGRAMA DE LA SERIE DE DIFERENCIAS SE PUEDE USAR PARA EVALUAR SI UNA SERIE DETERMINADA
+    #SE MODELA RAZONABLEMENTE COMO UNA CAMINATA ALEATORIA
+acf(diff(y)) # para ver si la diferencias es ruido blanco
+# parece pero hay retardos que no cumplen
+
+# no hay patrones obvios en el correlograma con solo un par de valores marginalmente estadisticamente
+      # significativos
+# estos valores significativos se pueden ignorar por que son pequeños e magnitud y se espera que aproximadamente
+      # el 5% de los valores sean estadisticamente significativos
+# incluso cuando los valores subyacentes on cero, por lo tanto hay buena evidencia de que la serie simulada en y 
+    # sigue una caminata aleatoria
+
+##  CAMINATA ALEATORIA CON DERIVA
+set.seed(123)
+e = rnorm(1000)
+y = cumsum(e) # suma acumulativa
+help("cumsum")
+ed=e+.2
+ed = cumsum(ed)
+plot.ts(ed,ylim=c(-5,55),main="caminata aleatoria con deriva", y lab ="indicador")
+lines(y,col=5);abline(h=0,col=4,lty=4); abline(a=0,b=.2, lty=4)
+
+
+set.seed(456)
+e= rnorm(1000);y= cumsum(e)
+ed=e+.2
+ed = cumsum(ed)
+plot.ts(ed,ylim=c(-5,55),main="caminata aleatoria con deriva", y lab ="indicador")
+lines(y,col=5);abline(h=0,col=4,lty=4); abline(a=0,b=.2, lty=4)
+
+# describe e+.2 el proceso RB mas la deriva
+# las opciones a y b corresponden al intercepto y a la pendiente asignada al modelo
