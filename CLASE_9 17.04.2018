@@ -1,0 +1,53 @@
+# METODOS SIMPLES DE PRONOSTICOS
+
+install.packages("fpp")
+library(fpp)
+
+# vector de datos
+library(readxl)
+ventas <- read_excel("C:/Users/Sala-D11/Documents/ARCHIVOS/ejemplo3.xlsx")
+ventas.ts <- ts(ventas,start = c(2010,1), frequency = 12) # start and finish etiqueta periodo
+plot(ventas.ts,xlab="periodo de tiempo",ylab="ventas en millones",main="VENTAS EN MILLONES DE EUROS")
+# serie fuertemente estacional
+
+# metodo de pronostico de la media
+# pronostico con un horizonte de 10
+meanf(ventas.ts,10) # 10 unidades de t en meses
+plot(meanf(ventas.ts,10),col=2) # plot da pronostico y la recta es la media , color obscruro con certeza a 95%
+
+# metodo naive "ingenuo" para pronosticos
+# pronosticos con horizonte de 10 
+naive(ventas.ts,10)
+x11()
+plot(naive(ventas.ts,10),col=2)
+# ahora conforme avanzas en h los intervalos se van abriendo por que la probabilidad de que ocurra se va reduciendo, alpha crece y beta reduce
+
+# alternativamente
+rwf(ventas.ts,10)
+plot(rwf(ventas.ts,10),col=2)
+
+# metodo naive estacional para pronosticos
+# replica el anterior
+snaive(ventas.ts,10)
+plot(snaive(ventas.ts,10),col=2)
+
+# metodo drift deriva para pronosticos
+rwf(ventas.ts,10,drift = TRUE)
+plot(rwf(ventas.ts,10,drift = T),col = 2)
+# no se presenta una recta y es la diferencia con el naive no estacional 
+
+# para hacer comparacion
+ventas.tsp <- window(ventas.ts,start=c(2010,1),frequency=12)
+ventas.meanf <- meanf(ventas.tsp,h=20)
+ventas.naive <- naive(ventas.tsp,h=20)
+ventas.snaive <- snaive(ventas.tsp,h=20)
+ventas.drift <- rwf(ventas.tsp,h=20,drift = T)
+
+x11()
+plot(ventas.meanf,plot.conf=FALSE,main = " pronosticos del valor de ventas") # false niega configuracion de grafico
+# en todos pides que estraiga la media
+lines(ventas.naive$mean,col=4)
+lines(ventas.snaive$mean,col=7)
+lines(ventas.drift$mean,col=10)
+legend("top",lty = 1,col = c(1,4,7,10),legend = c("metodo de la media","metodo naive","metodo naive estacional","metodo deriva"))
+# top da legenda arriba
