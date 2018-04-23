@@ -1,0 +1,103 @@
+# METODOS SIMPLES DE PRONOSTICOS
+
+install.packages ("fpp")
+biblioteca(fpp)
+
+# vector de datos
+biblioteca (readxl)
+boletos<- read_excel ("C:/Users/walmart santin/Downloads/Descargar_archivos (1).zip1/boletos.xlxs")
+boletos.ts <- ts (boletos)
+trama (boletos.ts, main = "VENTA DE BOLETOS")
+
+# metodo de pronostico de la media
+# pronostico con un horizonte de 10
+meanf (boletos.ts, 10) 
+trama (mediaf (boletos.ts, 10), col = "red") 
+
+# metodo ingenuo "ingenuo" para pronosticos
+# pronosticos con horizonte de 10 
+ingenuo (boletos.ts, 10)
+x11 ()
+trama (ingenua (boletos.ts, 10), col = "pink")
+
+
+# alternativamente
+rwf (boletos.ts, 10)
+plot (rwf (boletos.ts, 10), col = "green")
+
+# metodo naive estacional para pronosticos
+# replica el anterior
+snaive (boletos.ts, 10)
+trama (snaive (boletos.ts, 10), col = "blue")
+
+# metodo deriva derivada para pronosticos
+rwf (boletos.ts, 10, drift = TRUE)
+plot (rwf (boletos.ts, 10, drift = T), col = "green")
+ 
+
+# para hacer comparacion
+boletos.tsp <- window (boletos.ts, start = c (2010,1), frecuencia = 12)
+boletos.meanf <- meanf (boletos.tsp, h = 20)
+boletos.naive <- naive (boletos.tsp, h = 20)
+boletos.snaive <- snaive (boletos.tsp, h = 20)
+boletos.drift <- rwf (boletos.tsp, h = 20, drift = T)
+
+x11 ()
+plot (boletos.meanf, plot.conf = FALSE)
+líneas (boletos.naive $ mean, col = 4)
+líneas (boletos.snaive $ mean, col = 7)
+líneas (boletos.drift $ mean, col = 10)
+leyenda ("top", lty = 1, col = c (1,4,7,10), legend = c ("metodo de la media", "metodo naive", "metodo naive estacional", "metodo deriva") )
+
+##############################################################################################################################################
+
+# METODOS SIMPLES DE PRONOSTICOS
+
+install.packages ("fpp")
+biblioteca(fpp)
+
+# vector de datos
+biblioteca (readxl)
+electricidad <- read_excel ("C:/Users/walmart santin/Downloads/Descargar_archivos (1).zip1/electricidad.xlxs")
+electricidad.ts <- ts (electricidad)
+trama (electricidad.ts, main = "yt de electricidad")
+
+# metodo de pronostico de la media
+# pronostico con un horizonte de 10
+meanf (electricidad.ts, 10) 
+trama (mediaf (electricidad.ts, 10), col = "pink") 
+
+# metodo ingenuo "ingenuo" para pronosticos
+# pronosticos con horizonte de 10 
+ingenuo (electricidad.ts, 10)
+x11 ()
+trama (ingenua (electricidad.ts, 10), col = "blue")
+
+
+# alternativamente
+rwf (electricidad.ts, 10)
+plot (rwf (electricidad.ts, 10), col = "red")
+
+# metodo naive estacional para pronosticos
+# replica el anterior
+snaive (electricidad.ts, 10)
+trama (snaive (electricidad.ts, 10), col = "pink")
+
+# metodo deriva derivada para pronosticos
+rwf (electricidad.ts, 10, drift = TRUE)
+plot (rwf (electricidad.ts, 10, drift = T), col = "blue")
+
+
+# para hacer comparacion
+electricidad.tsp <- window (electricidad.ts, start = c (2010,1), frecuencia = 12)
+electricidad.meanf <- meanf (electricidad.tsp, h = 20)
+electricidad.naive <- naive (electricidad.tsp, h = 20)
+electricidad.snaive <- snaive (electricidad.tsp, h = 20)
+electricidad.drift <- rwf (electricidad.tsp, h = 20, drift = T)
+
+x11 ()
+plot (electricidad.meanf, plot.conf = FALSE)
+líneas (electricidad.naive $ mean, col = 4)
+líneas (electricidad.snaive $ mean, col = 7)
+líneas (electricidad.drift $ mean, col = 10)
+leyenda ("top", lty = 1, col = c (1,4,7,10), legend = c ("metodo de la media", "metodo naive", "metodo naive estacional", "metodo deriva") )
